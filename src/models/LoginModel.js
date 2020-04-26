@@ -6,8 +6,8 @@ const bcryptjs = require('bcryptjs');
 
 // Modelando quais dados deverão existir no LoginSchema.
 const LoginSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true}
+    email: { type: String, required: true },
+    password: { type: String, required: true }
 });
 
 const LoginModel = mongoose.model('Login', LoginSchema);
@@ -20,11 +20,30 @@ class Login {
         this.user = null;
     }
 
+    async login() {
+        this.valida();
+        if (this.errors.length > 0) return;
+
+        this.user = await LoginModel.findOne({ email: this.body.email });
+
+        if (!this.user) {
+            this.errors.push('Usuario não existe');
+            return;
+        }
+
+        if (!bcryptjs.compareSync(this.body.password, this.user.password)) {
+            this.errors.push('Senha Invalida');
+            this.user = null;
+            return;
+        }
+
+    }
+
     async register() {
         // Neste primeiro momento estamos checando a modelagem do formulario bem como algumas regras de validacao criadas
         this.valida();
         if (this.errors.length > 0) return;
-        
+
         // Fazemos novamente a checagem para evitar duplicacao de usuarios
         await this.userExists();
         if (this.errors.length > 0) return;
@@ -36,17 +55,14 @@ class Login {
 
         // Após feito as validações inserimos o novo usuario na base dados. Lembrando que operacoes com a base dados costumam retornar promisses.
         // Por isso tornamos nossa função de register async e o comando que esta criando o usuario na base dados usamos await
-        try {
-            this.user = await LoginModel.create(this.body);
-        } catch(e) {
-            console.log(e);
-        }
+        // Nao estou utilizando o bloco try aqui, pois usaremos a funcao register nos controllers e la o erro sera tratado
+        this.user = await LoginModel.create(this.body);
     }
 
     // Esse método é responsavel por checkar na base dados se um usuario já existe, como de costume quando mexemos na base dados utilizamos promisses
     async userExists() {
-       const user = await LoginModel.findOne({email: this.body.email });
-       if (user) this.errors.push("Usuário ja existe");
+        this.user = await LoginModel.findOne({ email: this.body.email });
+        if (this.user) this.errors.push("Usuário ja existe");
     }
 
     valida() {
