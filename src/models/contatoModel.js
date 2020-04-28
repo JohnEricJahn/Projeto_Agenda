@@ -26,8 +26,6 @@ Contato.prototype.register = async function () {
 Contato.prototype.valida = function () {
   this.cleanUp();
 
-  // Validação
-  // O e-mail precisa ser válido
   if (this.body.email && !validator.isEmail(this.body.email)) this.errors.push('E-mail inválido');
   if (!this.body.nome) this.errors.push('Nome é um campo obrigatório.');
   if (!this.body.email && !this.body.telefone) {
@@ -41,7 +39,6 @@ Contato.prototype.cleanUp = function () {
       this.body[key] = '';
     }
   }
-
 
   this.body = {
     nome: this.body.nome,
@@ -58,8 +55,6 @@ Contato.prototype.edit = async function(id) {
 
   this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, { new: true });
 }
-
-// Métodos Estaticos
 
 Contato.buscaPorId = async function (id) {
   if (typeof id !== 'string') return;
