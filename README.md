@@ -1,25 +1,22 @@
 # Projeto_Agenda
 
-O projeto foi criado com a finalidade de adquirir conhecimento sobre as linguagens,frameworks, arquiteturas, versionamento e demais softwares utilizados. 
-Utilizarei o framework Express para realizar as mais diversas operações que serão demandadas para realizar a conexão web.
-Utilizarei também várias extensões que o NPM disponibiliza algumas serão descritas abaixo.
+O projeto consiste no desenvolvimento de uma API_RESTFUL, que manipula contatos dentro de uma agenda (CRUD).
+Foi utilizado a biblioteca Express para a criação da API.
 
 Funcionalidades:
   1. Sistema de cadastro.
-  2. Sisetma de login.
-  3. Criar/Editar/Excluir/Listar contatos na agenda. Operações CRUD.
+  2. Sistema de login.
+  3. Criar/Editar/Excluir/Listar contatos na agenda.
 
 Requisitos do projeto:
   1. Deve possuir suporte a maior quantidade possivel de navegadores.
   2. Deve possuir uma conexão com um banco de dados.
   3. Deve utilizar um padrão de arquiterura de software.
-  4. Deve conter verificações de segurança como protecão a senha dos usuários e demais dados sigilosos.
+  4. Deve conter verificações de segurança como JWT e demais validações necessárias.
   
-Sobre o projeto:
+Implementação
   1. Estou utilizando o webpack para realizar a conversão do código atualizado para um padrão compativel com a maioria dos navegadores.
-  2. Optei por utilizar o MongoDB pois libera armazenamento para usuários free, por ser um BD NoSQL utilizaremos a extensão mongoose para realizar a modelagem dos dados.
-  3. A arquitetura de software escolhida foi MVC.
-  4. Proteção a ataques CSRF através da extensão "csurf". As senhas dos usuários serão salvas no banco de dados com um hash de senha, utilizaremos a extensão "bcryptjs". Terei o cuidado de sempre validar qualquer tipo de dado enviado pelos usuários.
-  
-  
-  OBS: Projeto ainda em andamento, mais informações podem ser inseridas posteriormente.
+  2. A base de dados utilizada foi o MongoDB, o tratamento e modelagem dos dados foram realizados através da biblioteca mongoose.
+  3. O padrão de arquitetura de software utilizado foi MVC.
+  4. Proteção a ataques CSRF através da biblioteca "csurf". As senhas dos usuários serão salvas como um hash de senha, para isso foi    utilizado a biblioteca "bcryptjs", também foi implementado a validação do usuário através de um token gerado quando o cliente realiza o  login.
+  5. Utilização de flash-messages para o controle de mensagens de sucesso e erro.
